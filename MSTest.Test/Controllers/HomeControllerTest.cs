@@ -48,6 +48,20 @@ namespace MvcUnitTesting.Tests.Controllers
             Assert.AreEqual("Your Privacy is our concern", result.ViewData["Message"]);
         }
 
+        [TestMethod]
+        public void show_ViewData_genre_test()
+        {
+            //arrange
+            var bookRepository = Mock.Create<IRepository<Book>>();
+            HomeController controller = new HomeController(bookRepository, null);
+
+            //act
+            var result = controller.IndexG("Fiction") as ViewResult;
+
+            //assert
+            Assert.AreEqual("Fiction", result.ViewData["Genre"]);
+        }
+
        
     }
 }

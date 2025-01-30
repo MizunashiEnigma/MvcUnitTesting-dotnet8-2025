@@ -11,6 +11,7 @@ namespace MvcUnitTesting_dotnet8.Models
     {
         T Get(int id);
         IEnumerable<T> GetAll();
+        IEnumerable<T> GetByGenre(string genre);
         IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
         
         void Add(T entity);

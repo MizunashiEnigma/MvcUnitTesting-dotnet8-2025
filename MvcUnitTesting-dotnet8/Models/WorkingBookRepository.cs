@@ -41,6 +41,10 @@ namespace MvcUnitTesting_dotnet8.Models
             return Context.Set<T>().ToList();
 
         }
+        IEnumerable<T> IRepository<T>.GetByGenre(string genre)
+        {
+            return Context.Set<T>().ToList();
+        }
 
 
         public void AddRange(IEnumerable<T> entities)
