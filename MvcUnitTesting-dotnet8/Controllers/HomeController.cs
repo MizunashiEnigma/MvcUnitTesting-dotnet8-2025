@@ -22,10 +22,16 @@ namespace MvcUnitTesting_dotnet8.Controllers
             var books = repository.GetAll();
             return View(books);
         }
-        public IActionResult IndexG(string genre)
+        public IActionResult IndexG(string genre = null)
         {
             ViewData["Genre"] = genre;
             var books = repository.GetByGenre(genre);
+
+            if (!string.IsNullOrEmpty(genre))
+            {
+                books = books.Where(b => b.Genre == genre).ToList();
+            }
+            ViewData["Genre"] = genre ?? "All Books";
             return View(books);
         }
 

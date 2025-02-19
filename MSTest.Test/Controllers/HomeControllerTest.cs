@@ -2,6 +2,7 @@
 using MvcUnitTesting_dotnet8.Models;
 using MvcUnitTesting_dotnet8.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace MvcUnitTesting.Tests.Controllers
@@ -61,6 +62,33 @@ namespace MvcUnitTesting.Tests.Controllers
             //assert
             Assert.AreEqual("Fiction", result.ViewData["Genre"]);
         }
+
+        [TestMethod]
+        public void test_book_by_genre()
+        {
+            //arrange
+            var bookRepository = Mock.Create<IRepository<Book>>();
+
+            Mock.Arrange(() => bookRepository.GetAll())
+             .Returns(new List<Book>()
+             {
+                new Book { Genre="Fiction", ID=1, Name="Moby Dick", Price=12.50m},
+                new Book { Genre="Fiction", ID=2, Name="War and Peace", Price=17m},
+                new Book { Genre="Science Fiction", ID=3, Name="Escape from the Vortex", Price=12.50m},
+                new Book { Genre="History", ID=4, Name="The Battle of the Somme", Price=22m},
+             }).MustBeCalled();
+
+            HomeController controller = new HomeController(bookRepository, null);
+
+            //act
+            ViewResult viewResult = controller.IndexG(null) as ViewResult;
+            var model = viewResult.Model as IEnumerable<Book>;
+
+            //assert
+            Assert.AreEqual(4, model.Count());
+
+        }
+
 
        
     }
