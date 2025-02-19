@@ -8,7 +8,7 @@ namespace MvcUnitTesting_dotnet8
     {
         public static void Main(string[] args)
         {
-            ActivityAPIClient.Track(StudentID: "S00237686", StudentName: "Tristan Cawley", activityName: "Rad302 2025 Week 2 Lab 1", Task: " RunningWeek 2 App");
+            ActivityAPIClient.Track(StudentID: "S00237686", StudentName: "Tristan Cawley", activityName: "Rad302 2025 Week 2 Lab 1", Task: " Implementing Production Repository Pattern");
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -17,9 +17,19 @@ namespace MvcUnitTesting_dotnet8
             builder.Services.AddDbContext<BookDbContext>(options =>
                 options.UseSqlServer(connectionString));
             // Register the repository as a service
-            builder.Services.AddScoped<IRepository<Book>, WorkingBookRepository<Book>>();
-
+            //builder.Services.AddScoped<IRepository<Book>, WorkingBookRepository<Book>>();
+            builder.Services.AddTransient<IRepository<Book>, WorkingBookRepository<Book>>();
+            builder.Services.AddControllersWithViews();
             var app = builder.Build();
+
+            using(var scope = app.Services.CreateScope())
+            {
+                var _ctx = scope.ServiceProvider.GetRequiredService<BookDbContext>();
+                var hostEnvironment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+
+                DbSeeder dbSeeder = new DbSeeder(_ctx, hostEnvironment);
+                dbSeeder.Seed();
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
