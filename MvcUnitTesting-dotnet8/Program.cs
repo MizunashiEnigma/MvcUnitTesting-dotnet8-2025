@@ -8,7 +8,7 @@ namespace MvcUnitTesting_dotnet8
     {
         public static void Main(string[] args)
         {
-            ActivityAPIClient.Track(StudentID: "S00237686", StudentName: "Tristan Cawley", activityName: "Rad302 2025 Week 2 Lab 1", Task: " Implementing Production Repository Pattern");
+            //ActivityAPIClient.Track(StudentID: "S00237686", StudentName: "Tristan Cawley", activityName: "Rad302 2025 Week 2 Lab 1", Task: " Implementing Production Repository Pattern");
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
